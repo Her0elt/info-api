@@ -16,8 +16,8 @@ async fn main() {
     dotenv().ok();
     let schema = Schema::build(Query, EmptyMutation, EmptySubscription).finish();
     let app = Route::new().at("/", get(graphql_playground).post(GraphQL::new(schema)));
-    println!("GraphiQL IDE: http://localhost:8000");
-    Server::new(TcpListener::bind("127.0.0.1:8000"))
+    println!("GraphiQL IDE: http://localhost:8080");
+    Server::new(TcpListener::bind("0.0.0.0:8080"))
         .run(app)
         .await
         .unwrap();
