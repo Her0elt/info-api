@@ -1,6 +1,7 @@
 use crate::education::Education;
 use crate::job_experience::JobExperience;
 use crate::technical_skills::TechnicalSkills;
+use crate::gitub_api::Repository;
 use async_graphql::*;
 
 // Example structure to play with
@@ -18,4 +19,8 @@ impl Query {
     pub async fn technical_skills(&self) -> Vec<TechnicalSkills> {
         return TechnicalSkills::list().await;
     }
+    pub async fn pinns(&self) -> Vec<Repository> {
+        return Repository::list().await;
+    }
+
 }

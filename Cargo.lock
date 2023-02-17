@@ -527,6 +527,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "dotenv"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "77c90badedccf4105eca100756a0b1289e191f6fcbdadd3cee1d2f614f97da8f"
+
+[[package]]
 name = "either"
 version = "1.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -814,6 +820,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "gql_client"
+version = "1.0.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e57f4862d3e5cd4ffe8df03fa2137e620e33578bbc1895e6f8f569630e17b1db"
+dependencies = [
+ "log",
+ "reqwest",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "graphql-parser"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1062,12 +1080,15 @@ dependencies = [
  "anyhow",
  "async-graphql",
  "async-graphql-poem",
+ "dotenv",
  "firebase-admin-auth-rs",
  "firestore",
  "futures",
+ "gql_client",
  "juniper",
  "poem",
  "serde",
+ "serde_derive",
  "tokio",
 ]
 
