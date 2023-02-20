@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use crate::education::Education;
 use crate::job_experience::JobExperience;
 use crate::technical_skills::TechnicalSkills;
@@ -19,8 +21,12 @@ impl Query {
     pub async fn technical_skills(&self) -> Vec<TechnicalSkills> {
         return TechnicalSkills::list().await;
     }
+    pub async fn group_by_category(&self) -> HashMap<String, Vec<TechnicalSkills>> {
+        return TechnicalSkills::group_by_category().await;
+    }
     pub async fn pinns(&self) -> Vec<Repository> {
         return Repository::list().await;
     }
+
 
 }
