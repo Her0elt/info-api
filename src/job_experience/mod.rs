@@ -40,7 +40,8 @@ impl JobExperience {
 impl JobExperience {
     const JOBEXPERIENCE_COLLECTION_NAME: &'static str = "job-experience";
     pub async fn list() -> Vec<Self> {
-        let db = FirestoreDb::new(String::from("cv-tracker-db866"))
+        let project_id = std::env::var("GCP_PROJECT_ID").expect("Need to provide gcp project id");
+        let db = FirestoreDb::new(project_id)
             .await
             .unwrap();
 

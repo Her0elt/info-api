@@ -12,6 +12,9 @@ pub struct Query;
 
 #[Object]
 impl Query {
+    pub async fn health_check(&self) -> &str {
+        return "awake and ready"
+    }
     pub async fn educations(&self) -> Vec<Education> {
         return Education::list().await;
     }

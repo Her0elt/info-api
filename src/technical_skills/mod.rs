@@ -31,7 +31,8 @@ impl TechnicalSkills {
     const TECHNICALSKILLS_COLLECTION_NAME: &'static str = "technical-skills";
 
     pub async fn list() -> Vec<Self> {
-        let db = FirestoreDb::new(String::from("cv-tracker-db866"))
+        let project_id = std::env::var("GCP_PROJECT_ID").expect("Need to provide gcp project id ");
+        let db = FirestoreDb::new(project_id)
             .await
             .unwrap();
 
@@ -49,7 +50,8 @@ impl TechnicalSkills {
         return docs;
     }
     pub async fn group_by_category() -> HashMap<String, Vec<Self>> {
-        let db = FirestoreDb::new(String::from("cv-tracker-db866"))
+        let project_id = std::env::var("GCP_PROJECT_ID").expect("Need to provide gcp project id ");
+        let db = FirestoreDb::new(project_id)
             .await
             .unwrap();
 
