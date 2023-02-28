@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 
 use async_graphql::*;
 use firestore::FirestoreDb;
@@ -49,7 +49,7 @@ impl TechnicalSkills {
         let docs: Vec<TechnicalSkills> = objs_stream.collect().await;
         return docs;
     }
-    pub async fn group_by_category() -> HashMap<String, Vec<Self>> {
+    pub async fn group_by_category() -> BTreeMap<String, Vec<Self>> {
         let project_id = std::env::var("GCP_PROJECT_ID").expect("Need to provide gcp project id ");
         let db = FirestoreDb::new(project_id)
             .await
@@ -66,7 +66,7 @@ impl TechnicalSkills {
             .unwrap();
 
         let docs: Vec<TechnicalSkills> = objs_stream.collect().await;
-        let mut groups: HashMap<String, Vec<Self>> = HashMap::new();
+        let mut groups: BTreeMap<String, Vec<Self>> = BTreeMap::new();
 
         for item in docs {
             let field_val = item.category.clone();

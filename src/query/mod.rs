@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 
 use crate::education::Education;
 use crate::job_experience::JobExperience;
@@ -24,7 +24,7 @@ impl Query {
     pub async fn technical_skills(&self) -> Vec<TechnicalSkills> {
         return TechnicalSkills::list().await;
     }
-    pub async fn group_by_category(&self) -> HashMap<String, Vec<TechnicalSkills>> {
+    pub async fn group_by_category(&self) -> BTreeMap<String, Vec<TechnicalSkills>> {
         return TechnicalSkills::group_by_category().await;
     }
     pub async fn pinns(&self) -> Vec<Repository> {
