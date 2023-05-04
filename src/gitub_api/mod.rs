@@ -3,6 +3,10 @@ use serde::Deserialize;
 use gql_client::Client;
 use async_graphql::*;
 
+#[derive(Deserialize, Debug)]
+struct ApiResponse<T> {
+    data: T
+}
 
 #[derive(Deserialize, Debug)]
 struct Data {
@@ -23,8 +27,8 @@ struct PinnedItems {
 #[derive(Deserialize, Debug)]
 pub struct Repository {
     name: String,
-    description: String,
-    url: String,
+    description: Option<String>,
+    url: Option<String>,
 }
 
 #[Object]
@@ -32,10 +36,10 @@ impl Repository {
     pub async fn name(&self) -> String {
         return self.name.clone();
     }
-    pub async fn description(&self) -> String {
+    pub async fn description(&self) -> Option<String> {
         return self.description.clone();
     }
-    pub async fn url(&self) -> String {
+    pub async fn url(&self) -> Option<String> {
         return self.url.clone();
     }
 
@@ -68,7 +72,7 @@ impl Repository {
 
 
         let client = Client::new_with_headers(Self::API_URL, headers);
-        let response = client.query::<Data>(Self::QUERY_STRING).await.unwrap().unwrap();
+        let response: Data = client.query(Self::QUERY_STRING).await.unwrap().unwrap();
         let repos = response.viewer.pinnedItems.nodes;
         return repos;
     }
