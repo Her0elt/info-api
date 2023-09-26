@@ -1,26 +1,25 @@
-FROM lukemathwalker/cargo-chef AS chef
-WORKDIR app
-FROM chef AS planner
+FROM lukemathwalker/cargo-chef:latest-rust-1.69.0 as chef
+WORKDIR /app
+RUN apt update && apt install lld clang -y
+FROM chef as planner
 COPY . .
 RUN cargo chef prepare --recipe-path recipe.json
 
-FROM chef AS cacher
 
+FROM chef as builder
 COPY --from=planner /app/recipe.json recipe.json
-# Build dependencies - this is the caching Docker layer!
 RUN cargo chef cook --release --recipe-path recipe.json
-# Build application
-
-FROM rust AS builder
-WORKDIR /app
-COPY . /app
-COPY --from=cacher /app/target target
-COPY --from=cacher /usr/local/cargo /usr/local/cargo
+COPY . .
 RUN cargo build --release
 
-FROM gcr.io/distroless/cc
-COPY --from=builder /app/target/release/info-api /
-EXPOSE 8080
-EXPOSE 8080/tcp
-EXPOSE 8080/udp
-CMD ["./info-api"]
+FROM debian:bullseye-slim AS runtime
+WORKDIR /app
+RUN apt-get update -y \
+    && apt-get install -y --no-install-recommends openssl ca-certificates \
+    && apt-get autoremove -y \
+    && apt-get clean -y \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=builder /app/target/release/info-api info-api
+ENTRYPOINT ["./info-api"]
+
