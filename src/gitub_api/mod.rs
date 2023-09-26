@@ -4,6 +4,11 @@ use serde::Deserialize;
 use std::collections::HashMap;
 
 #[derive(Deserialize, Debug)]
+struct ApiResponse<T> {
+    data: T,
+}
+
+#[derive(Deserialize, Debug)]
 struct Data {
     viewer: Viewer,
 }
@@ -22,7 +27,7 @@ struct PinnedItems {
 pub struct Repository {
     id: String,
     name: String,
-    description: String,
+    description: Option<String>,
     url: String,
     languages: Languages,
 }
@@ -45,7 +50,7 @@ impl Repository {
     pub async fn name(&self) -> String {
         return self.name.clone();
     }
-    pub async fn description(&self) -> String {
+    pub async fn description(&self) -> Option<String> {
         return self.description.clone();
     }
     pub async fn url(&self) -> String {
@@ -109,6 +114,7 @@ impl Repository {
             .await
             .unwrap()
             .unwrap();
+        let response: Data = client.query(Self::QUERY_STRING).await.unwrap().unwrap();
         let repos = response.viewer.pinnedItems.nodes;
         return repos;
     }
