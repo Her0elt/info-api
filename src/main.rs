@@ -1,10 +1,9 @@
 use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
 use async_graphql::*;
 use async_graphql_poem::GraphQL;
+use dotenv::dotenv;
 use info_api::query::*;
 use poem::{get, handler, listener::TcpListener, web::Html, IntoResponse, Route, Server};
-use dotenv::dotenv;
-
 
 #[handler]
 async fn graphql_playground() -> impl IntoResponse {
