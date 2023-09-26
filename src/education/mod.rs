@@ -37,9 +37,7 @@ impl Education {
     const EDUCATION_COLLECTION_NAME: &'static str = "education";
     pub async fn list() -> Vec<Self> {
         let project_id = std::env::var("GCP_PROJECT_ID").expect("Need to provide gcp project id");
-        let db = FirestoreDb::new(project_id)
-            .await
-            .unwrap();
+        let db = FirestoreDb::new(project_id).await.unwrap();
 
         // Get a document as an object by id
         let objs_stream: BoxStream<Education> = db
